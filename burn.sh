@@ -1,0 +1,1 @@
+avrdude.exe -F -v -patmega328p -carduino -PCOM4 -b57600 -D -Uflash:w:"uart2.hex":i

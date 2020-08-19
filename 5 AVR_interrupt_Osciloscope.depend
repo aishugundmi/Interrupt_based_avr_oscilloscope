@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1597837032 source:c:\users\aishwarya\desktop\avr_code\5 avr_interrupt_osciloscope\fuse.c
+	<avr/io.h>
+
+1597837032 source:c:\users\aishwarya\desktop\avr_code\5 avr_interrupt_osciloscope\main.c
+	<avr/io.h>
+
+1597837032 source:c:\users\aishwarya\desktop\avr_code\5 avr_osciloscope_interrupt_based\fuse.c
+	<avr/io.h>
+
+1597848914 source:c:\users\aishwarya\desktop\avr_code\5 avr_osciloscope_interrupt_based\main.c
+	<avr/io.h>
+	<util/delay.h>
+	<avr/interrupt.h>
+	<stdio.h>
+	<stdint.h>
+	<avr/pgmspace.h>
+
