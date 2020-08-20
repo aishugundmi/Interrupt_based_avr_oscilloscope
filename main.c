@@ -45,8 +45,12 @@ uint16_t read_adc(uint8_t channel)
 ISR(ADC_vect)
 {
     adc_value0 = read_adc(0);        //Read one ADC channel
+}
 
-    ser[1]=((uint16_t)adc_value0) >> 8;     // high byte
+ISR(USART_TX_vect)
+{
+    ser[0]=0xF7;
+	ser[1]=((uint16_t)adc_value0) >> 8;     // high byte
     ser[2]=((uint16_t)adc_value0) & 0x00FF; // low byte
 
     USART_send(ser[0]);
@@ -71,12 +75,13 @@ int main(void)
 {
     DDRD |= (1<<PD6);   //PWM output OC0A
 
+    timer0pwm_init();
     adc_init();
     USART_init();
-    timer0pwm_init();
+
 
    /// USART_putstring("Oscilloscope\n");
-    ser[0]=0xF7;
+
 
     while(1)
     {
@@ -95,6 +100,8 @@ void USART_init(void)
 
     UCSR0B |= (1<<RXEN0)|(1<<TXEN0);
     UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);
+
+    UCSR0B |= (1 << TXCIE0); ////enable transmit interrupt
 }
 
 void USART_send( unsigned char data)
