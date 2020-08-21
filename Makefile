@@ -1,6 +1,6 @@
 # AVR-GCC Makefile
 PROJECT=qi
-SOURCES=main.c
+SOURCES=main.c fifo.c
 CC=avr-gcc
 OBJCOPY=avr-objcopy
 MMCU=atmega328p
