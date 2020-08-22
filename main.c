@@ -48,6 +48,8 @@ ISR(ADC_vect)
     push_to_tx_fifo(((uint16_t)adc_value0) >> 8);       // high byte
     push_to_tx_fifo(((uint16_t)adc_value0) & 0x00FF);   // low byte
 
+    sei();
+
     UCSR0B |= (1<<UDRIE0);    // Enable UDRE interrupt
 }
 
@@ -59,8 +61,8 @@ ISR(USART_UDRE_vect)
     }
     else
     {
-		UCSR0B &= ~(1<<UDRIE0);		// disable Data-Register-Empty-Interrupt
-	}
+        UCSR0B &= ~(1<<UDRIE0);		// disable Data-Register-Empty-Interrupt
+    }
 }
 
 void timer0pwm_init()
@@ -79,12 +81,11 @@ int main(void)
 
     uint8_t channel = 0b00000000;
     timer0pwm_init();
-    adc_init(channel);
     USART_init();
+    adc_init(channel);
 
 
    /// USART_putstring("Oscilloscope\n");
-
 
     while(1)
     {
@@ -101,7 +102,7 @@ void USART_init(void)
 
     UCSR0A |= (1 << U2X0);      //U2X0=1
 
-    UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
+    UCSR0B |= (1 << TXEN0);
     UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00); //8 bit transmission
 
    // UCSR0B |= (1 << TXCIE0); //enable transmit interrupt
