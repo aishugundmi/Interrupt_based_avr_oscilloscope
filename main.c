@@ -12,10 +12,12 @@
 
 #define BAUDRATE 115200UL
 //#define BAUD_PRESCALLER (((F_CPU / (BAUDRATE * 16UL))) - 1)
-//#define BAUD_PRESCALLER 16
-#define BAUD_PRESCALLER 1
 
-//#define BAUD_PRESCALLER 0
+//#define BAUD_PRESCALLER 16
+
+//#define BAUD_PRESCALLER 1  //1M
+
+#define BAUD_PRESCALLER 3   //0.5M
 
 uint16_t adc_value0;
 uint8_t ser[3];
@@ -65,6 +67,15 @@ void USART_send(unsigned char data);
 void USART_putstring(char* StringPtr);
 
 void timer0pwm_init();
+void timer1_init();
+
+void timer1_init()
+{
+    TCNT1 = 0;
+    ICR1 = 15999;  //for 1kHz sine wave
+    TCCR1B |= (1 << WGM13) | (1 << WGM12) | (1 << CS10); //pre scaling 1, Mode 12, CTC
+    sei();
+}
 
 void adc_init(uint8_t channel)
 {
@@ -72,6 +83,7 @@ void adc_init(uint8_t channel)
   //  ADCSRA |= (1 << ADPS2);    //16Mhz/16
 
     ADCSRA |= ((1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0));    //16Mhz/128
+    ADCSRB  |= ((1 << ADTS2) | (1 << ADTS1) | (1 << ADTS0));    //Timer/Counter1 capture event
 
     ADMUX |= (1 << REFS0);                  //Voltage reference from Avcc (5v)
 
@@ -92,6 +104,8 @@ ISR(ADC_vect)
     push_to_tx_fifo(((uint16_t)adc_value0) & 0x00FF);   // low byte
 
     UCSR0B |= (1<<UDRIE0);    // Enable UDRE interrupt
+
+    TIFR1 |= 1<<ICF1;      //clear the timer capture interrupt flag
 }
 
 ISR(USART_UDRE_vect)
@@ -122,6 +136,7 @@ int main(void)
     DDRD |= (1 << PD6);   //PWM output OC0A
 
     channel = 0b00000000;
+    timer1_init();
     timer0pwm_init();
     USART_init();
     adc_init(channel);
