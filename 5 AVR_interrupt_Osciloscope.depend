@@ -8,7 +8,7 @@
 1597837032 source:c:\users\aishwarya\desktop\avr_code\5 avr_osciloscope_interrupt_based\fuse.c
 	<avr/io.h>
 
-1598107410 source:c:\users\aishwarya\desktop\avr_code\5 avr_osciloscope_interrupt_based\main.c
+1598159632 source:c:\users\aishwarya\desktop\avr_code\5 avr_osciloscope_interrupt_based\main.c
 	<avr/io.h>
 	<util/delay.h>
 	<avr/interrupt.h>

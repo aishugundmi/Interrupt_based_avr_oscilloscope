@@ -13,9 +13,9 @@
 #define BAUDRATE 115200UL
 //#define BAUD_PRESCALLER (((F_CPU / (BAUDRATE * 16UL))) - 1)
 //#define BAUD_PRESCALLER 16
-//#define BAUD_PRESCALLER 1
+#define BAUD_PRESCALLER 1
 
-#define BAUD_PRESCALLER 0
+//#define BAUD_PRESCALLER 0
 
 uint16_t adc_value0;
 uint8_t ser[3];
